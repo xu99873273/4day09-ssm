@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.spoto.dao.AccountMapper">
+
+    <select id="list" resultMap="accountResultMap">
+        select * from account <include refid="byWhere"></include>
+    </select>
+
+    <select id="listCount" resultType="java.lang.Integer">
+        select count(*) from account <include refid="byWhere"></include>
+    </select>
+
+    <sql id="byWhere">
+        <where>
+            <if test="account != null and account != ''">
+                and account like CONCAT('%', #{account}, '%')
+            </if>
+            <if test="passwd != null and passwd != ''">
+                and passwd_str like CONCAT('%', #{passwd}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="accountResultMap" type="org.spoto.model.Account">
+        <result property="passwd" column="passwd_str"></result>
+    </resultMap>
+
+    <insert id="add">
+        INSERT INTO account (account, passwd_str) VALUES (#{ac.account}, #{ac.passwd})
+    </insert>
+
+    <update id="change">
+        UPDATE account SET account = #{ac.account}, passwd_str = #{ac.passwd} WHERE id = #{ac.id}
+    </update>
+
+    <delete id="del">
+        DELETE FROM account WHERE id IN (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+</mapper>
