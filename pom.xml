@@ -26,7 +26,7 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
-        <!-- 1文件上传支持(commons-io) -->
+        <!-- 2文件上传支持(commons-io) -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
